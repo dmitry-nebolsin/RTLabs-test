@@ -1,0 +1,16 @@
+ru\rtlabs\entity\Person.class
+ru\rtlabs\ControllersConfiguration.class
+ru\rtlabs\entity\Department.class
+ru\rtlabs\repository\PersonRepository.class
+ru\rtlabs\ControllersConfiguration$ViewHolder.class
+ru\rtlabs\datasource\ReportSource.class
+ru\rtlabs\ui\MainController.class
+ru\rtlabs\entity\Claim.class
+ru\rtlabs\AbstractJavaFxApplicationSupport.class
+ru\rtlabs\entity\Service.class
+ru\rtlabs\entity\ReportRow.class
+ru\rtlabs\Application.class
+ru\rtlabs\datasource\ReportSourceImpl.class
+ru\rtlabs\repository\ServiceRepository.class
+ru\rtlabs\entity\Subservice.class
+ru\rtlabs\repository\ClaimRepository.class
