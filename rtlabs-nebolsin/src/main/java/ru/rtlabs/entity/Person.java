@@ -2,6 +2,8 @@ package ru.rtlabs.entity;
 
 import org.springframework.data.annotation.Id;
 
+/** Сущность - заявитель
+ */
 public class Person {
     @Id
     private String id;

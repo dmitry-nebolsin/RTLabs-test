@@ -8,6 +8,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/** Сервис, предоставляющий доступ к данным задачи.
+ */
 @org.springframework.stereotype.Service
 public class ReportSourceImpl implements ReportSource {
 
@@ -23,8 +25,12 @@ public class ReportSourceImpl implements ReportSource {
         this.serviceRepository = serviceRepository;
     }
 
+    /** Метод, заливающий в базу набор рандомизированных данных
+     */
     @Override
     public void populate() {
+
+        //Добавим 3 заявителя
         final List<Person> persons = Arrays.asList(
                 new Person("Василий Петрович","ИП"),
                 new Person("Петр Леонидович","ФЛ"),
@@ -33,8 +39,10 @@ public class ReportSourceImpl implements ReportSource {
 
         personRepository.deleteAll();
 
+        //сохраним их, чтобы получить ID для вставки связных объектов
         List<Person> insertedPersons = personRepository.save(persons);
 
+        //Сохраним 3 сервиса с подсервисами и ведомствами
         final List<Service> services = Arrays.asList(
                 new Service("Уборка номера","12345",
                         "ФЛ",
@@ -58,6 +66,7 @@ public class ReportSourceImpl implements ReportSource {
 
         claimRepository.deleteAll();
 
+        //Зальём 200 заявок со случайными заявителями, датами и сервисами
         for (int i = 0;i<200;i++) {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DATE, r.nextInt(30));
@@ -69,6 +78,10 @@ public class ReportSourceImpl implements ReportSource {
         }
     }
 
+    /** Метод получения данных отчёта.
+     * Скорее всего можно данные подтянуть одним запросом, не обращаясь каждый раз за связанными объектами,
+     * если бы это был SQL я бы так и сделал, пока обойдёмся тем, что хотя бы закешируем заявителей и сервисы
+     */
     @Override
     public List<ReportRow> getReportRows() {
         List<ReportRow> result = new ArrayList<>();
@@ -77,10 +90,12 @@ public class ReportSourceImpl implements ReportSource {
 
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 
+        //кеши для заявителей и сервисов
         Map<String,Person> persons = new HashMap<>();
         Map<String,Service> services = new HashMap<>();
 
         for (Claim c : claims) {
+            //получаем связные объекты, сначала проверив кеш
             Person person = persons.get(c.getPersonId());
             if (person == null) {
                 person = personRepository.findOne(c.getPersonId());
@@ -95,6 +110,7 @@ public class ReportSourceImpl implements ReportSource {
 
             String subserviceNames = "";
 
+            //Подуслуги в теории один-ко-многим, так что соберём их названия через запятую
             if (service.getSubservices() != null)
                 for (Subservice subservice : service.getSubservices()) {
                     subserviceNames += subservice.getName() + ',';
@@ -119,6 +135,11 @@ public class ReportSourceImpl implements ReportSource {
         return result;
     }
 
+    /** Получение данных для гистограммы
+     * Возвращает TreeMap потому что он сразу отсортирован по ключам - удобно выводить
+     * Опять таки, скорее всего возможно как-то отфильтровать по значению поля связного
+     * объекта и сагрегировать по датам сразу на стороне базы - но я пока что получу агрегацию вручную.
+     */
     @Override
     public TreeMap<Date, Integer> getBarSeries(String type) {
         TreeMap<Date, Integer> result = new TreeMap<>();
@@ -133,6 +154,9 @@ public class ReportSourceImpl implements ReportSource {
                 persons.put(person.getId(),person);
             }
 
+            //Если нужный идентификатор - проверяем наличие даты в карте,
+            //если она есть - увеличиваем счётчик, если нет -
+            //добавляем в карту со значением 1
             if (type.equals(person.getOrgType())) {
                 Integer count = result.get(c.getDate());
                 if (count == null) result.put(c.getDate(),1);

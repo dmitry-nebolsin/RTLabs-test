@@ -9,13 +9,6 @@ import ru.rtlabs.ui.MainController;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Date: 27.08.15
- * Time: 11:04
- *
- * @author Ruslan Molchanov (ruslanys@gmail.com)
- * @author http://mruslan.com
- */
 @Configuration
 public class ControllersConfiguration {
 
@@ -54,7 +47,7 @@ public class ControllersConfiguration {
 
     /**
      * Класс - оболочка: контроллер мы обязаны указать в качестве бина,
-     * а view - представление, нам предстоит использовать в точке входа {@link Application}.
+     * а view - представление, нам предстоит использовать в точке входа
      */
     public class ViewHolder {
         private Parent view;

@@ -1,5 +1,7 @@
 package ru.rtlabs.entity;
 
+/** Сущность - подуслуга
+ */
 public class Subservice {
 
     private String targetCode;

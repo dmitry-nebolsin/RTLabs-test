@@ -4,6 +4,8 @@ import org.springframework.data.annotation.Id;
 
 import java.util.Date;
 
+/** Сущность-заявка
+ */
 public class Claim {
 
     @Id

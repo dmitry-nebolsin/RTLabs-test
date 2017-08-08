@@ -4,6 +4,8 @@ import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
+/** Сущность - услуга
+ */
 public class Service {
 
     @Id

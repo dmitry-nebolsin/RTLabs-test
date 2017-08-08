@@ -2,6 +2,7 @@ package ru.rtlabs.entity;
 
 import java.io.Serializable;
 
+/*Сущность - строка отчёта*/
 public class ReportRow implements Serializable {
 
     private String orderNumber;

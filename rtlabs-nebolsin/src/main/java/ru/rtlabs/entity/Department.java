@@ -1,5 +1,7 @@
 package ru.rtlabs.entity;
 
+/** Сущность - ведомство
+ */
 public class Department {
 
     private String name;

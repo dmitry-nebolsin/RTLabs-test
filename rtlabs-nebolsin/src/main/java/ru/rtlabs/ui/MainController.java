@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**Контроллер для интерфейса приложения*/
 @SuppressWarnings("SpringJavaAutowiringInspection")
 public class MainController {
 
@@ -37,7 +38,7 @@ public class MainController {
     public void initialize() {
     }
 
-
+    /**Инициализация для компонентов*/
     @PostConstruct
     public void init() {
         List<ReportRow> rows = reportSource.getReportRows();
@@ -105,7 +106,7 @@ public class MainController {
 
 
     /**
-     * Обновление
+     * Заполнение базы данными.
      */
     @FXML
     public void populateBase(ActionEvent actionEvent) {
@@ -118,6 +119,7 @@ public class MainController {
         refreshChartData("ИП");
     }
 
+    /**Обработчики нажатий кнопок, с последующим обновлением гистограммы*/
     @FXML
     public void refreshChartIP(ActionEvent actionEvent) {
         refreshChartData("ИП");
